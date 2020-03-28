@@ -26,7 +26,7 @@ module.exports = {
           email: {
             type: Sequelize.STRING
           },
-          lasLogin: {
+          lastLogin: {
             type: Sequelize.DATE
           },
           image: {
