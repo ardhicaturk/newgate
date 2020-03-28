@@ -22,7 +22,10 @@ module.exports = (sequelize, DataTypes) => {
         min: 1
       }
     }
-  }, {});
+  }, {
+    schema: 'auth',
+    tableName: 'users_auth_modes'
+  });
   users_auth_modes.associate = function(models) {
     // associations can be defined here
   };

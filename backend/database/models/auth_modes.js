@@ -9,13 +9,17 @@ module.exports = (sequelize, DataTypes) => {
         isAlphanumeric: true
       }
     }
-  }, {});
+  }, {
+    schema: 'auth',
+    tableName: 'auth_modes'
+  });
   auth_modes.associate = function(models) {
     // associations can be defined here
     auth_modes.belongsToMany(models.users_directories, {
       through: {
         model: models.users_auth_modes
-      }
+      },
+      foreignKey: 'usersId'
     });
   };
   return auth_modes;

@@ -1,11 +1,9 @@
 'use strict';
-const uuid = require('uuid/v4');
 module.exports = (sequelize, DataTypes) => {
   const users_directories = sequelize.define('users_directories', {
     uuid: {
       type: DataTypes.UUID,
-      allowNull: false,
-      defaultValue: uuid()
+      allowNull: false
     },
     firstName: {
       type: DataTypes.STRING,
@@ -28,7 +26,10 @@ module.exports = (sequelize, DataTypes) => {
     lastLogin: DataTypes.DATE,
     image: DataTypes.STRING,
     roleId: DataTypes.INTEGER
-  }, {});
+  }, {
+    schema: 'users_dir',
+    tableName: 'users_directories'
+  });
   users_directories.associate = function(models) {
     // associations can be defined here
     users_directories.belongsTo(models.roles);
@@ -36,11 +37,13 @@ module.exports = (sequelize, DataTypes) => {
       through: {
         model: models.users_auth_modes
       },
+      foreignKey: 'authModeId'
     });
-    users_directories.belongsToMany(models.auth, {
+    users_directories.belongsToMany(models.auths, {
       through: {
         model: models.users_auth_modes
       },
+      foreignKey: 'usersId'
     });
   };
   return users_directories;

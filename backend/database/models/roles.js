@@ -16,10 +16,13 @@ module.exports = (sequelize, DataTypes) => {
         min: 1
       }
     }
-  }, {});
+  }, {
+    schema: 'users_dir',
+    tableName: 'roles'
+  });
   roles.associate = function(models) {
     // associations can be defined here
-    roles.hasMany(models.users_directories)
+    roles.hasMany(models.users_directories);
   };
   return roles;
 };
