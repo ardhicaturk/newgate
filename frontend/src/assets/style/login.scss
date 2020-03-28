@@ -1,0 +1,86 @@
+.login-form {
+    background: #CCEDD2;
+    box-shadow: 0px 0px 60px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    width: 50vw;
+    height: 40vh;
+    max-width: 672px;
+    max-height: 300px;
+    padding: 0;
+
+    .header-form {
+      background-color: white;
+      max-height: 48px;
+      color: #655c56;
+      box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+      border-radius: 10px 10px 0 0;
+    }
+    
+
+    .input-form-wrapper{
+      text-align: center;
+      margin-top: 30px;
+      .MuiInput-underline:after, .MuiInput-underline:before, .MuiInput-underline:hover{
+        border-bottom: none;
+      }
+      
+      .MuiInput-root {
+        width: 100%;
+      }
+
+      .input-form-username {
+        margin: auto;
+        background-color: white;
+        border-radius: 10px 10px 0 0;
+        padding: 0 10px 0 10px;
+        min-width: 300px;
+        width: 50%;
+        
+        input {
+          padding-top: 15px;
+          text-align: center;
+          margin-left: -35px;
+        }
+
+        .icon-email {
+          transition: color 0.2s ease;
+          color: rgba(0, 0, 0, 0.5);
+        }
+      }
+
+      .input-form-username:hover .icon-email, .input-form-username:focus-within .icon-email {
+        color: rgba(0, 0, 0, 0.8);
+      }
+
+
+      .input-form-password {
+        margin: auto;
+        background-color: white;
+        border-radius: 0px 0px 10px 10px;
+        border-top: 1px solid black;
+        padding: 0 10px 0 10px;
+        min-width: 300px;
+        width: 50%;
+
+        input {
+          padding-top: 15px;
+          text-align: center;
+          margin-left: -35px;
+        }
+        .icon-password {
+          transition: color 0.2s ease;
+          color: rgba(0, 0, 0, 0.5);
+        }
+      }
+
+      .input-form-password:hover .icon-password , .input-form-password:focus-within .icon-password{
+        color: rgba(0, 0, 0, 0.8);
+      }
+
+      .login-button-submit {
+        margin-top: 20px;
+        border: 2px solid white;
+        border-radius: 10px;
+      }
+    }
+  }

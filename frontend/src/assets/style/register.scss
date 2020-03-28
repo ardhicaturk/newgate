@@ -1,0 +1,33 @@
+.register-form {
+    background: #CCEDD2;
+    box-shadow: 0px 0px 60px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    width: 50vw;
+    height: 100%;
+    max-width: 672px;
+    min-height: 300px;
+    padding: 0 0 20px 0;
+    display: block;
+
+    .header-form {
+      background-color: white;
+      max-height: 48px;
+      color: #655c56;
+      box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+      border-radius: 10px 10px 0 0;
+    }
+    
+    .input-wrapper {
+        display: inline-block;
+        text-align: center;
+
+        .table-input {
+            margin: 30px auto;
+            font-size: 1.2em;
+            
+            td {
+                padding: 10px;
+            }
+        }
+    }
+  }

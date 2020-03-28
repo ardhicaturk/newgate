@@ -1,0 +1,19 @@
+html {
+  body {
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    position: relative;
+
+    .header-title {
+      color: #655c56;
+      margin: 50px auto 50px auto;
+      text-align: center;
+    }
+
+    @import './login.scss';
+    @import './register.scss';
+    @import './fogotPassword.scss';
+    @import './error.scss';
+  }
+}
