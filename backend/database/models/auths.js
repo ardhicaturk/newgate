@@ -1,4 +1,5 @@
 'use strict';
+const cryptoRandomString = require('crypto-random-string');
 module.exports = (sequelize, DataTypes) => {
   const auths = sequelize.define('auths', {
     entity: {
@@ -12,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     resetToken: {
       type: DataTypes.STRING,
       allowNull: false,
+      defaultValue: cryptoRandomString({length: 25}),
       validate: {
         len: [5],
         isAlphanumeric: true

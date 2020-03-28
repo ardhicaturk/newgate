@@ -1,4 +1,6 @@
 'use strict';
+
+const uuid = require('uuid/v4');
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.sequelize.transaction(t => {
@@ -12,7 +14,8 @@ module.exports = {
             type: Sequelize.INTEGER
           },
           uuid: {
-            type: Sequelize.UUID
+            type: Sequelize.UUID,
+            defaultValue: uuid()
           },
           firstName: {
             type: Sequelize.STRING
@@ -21,7 +24,8 @@ module.exports = {
             type: Sequelize.STRING
           },
           verfied: {
-            type: Sequelize.BOOLEAN
+            type: Sequelize.BOOLEAN,
+            defaultValue: false
           },
           email: {
             type: Sequelize.STRING

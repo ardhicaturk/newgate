@@ -1,4 +1,6 @@
 'use strict';
+
+const cryptoRandomString = require('crypto-random-string');
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.sequelize.transaction(t => {
@@ -15,7 +17,8 @@ module.exports = {
             type: Sequelize.STRING
           },
           resetToken: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            defaultValue: cryptoRandomString({length: 25})
           },
           createdAt: {
             allowNull: false,

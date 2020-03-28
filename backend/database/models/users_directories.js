@@ -1,7 +1,12 @@
 'use strict';
+const uuid = require('uuid/v4');
 module.exports = (sequelize, DataTypes) => {
   const users_directories = sequelize.define('users_directories', {
-    uuid: DataTypes.UUID,
+    uuid: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      defaultValue: uuid()
+    },
     firstName: {
       type: DataTypes.STRING,
       allowNull: false

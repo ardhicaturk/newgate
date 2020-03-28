@@ -6,4 +6,4 @@ backend/public
 backend/views
 backend/logs
 backend/.env
-backend/pnpm-lock.yaml
+backend/pnpm-lock.*
