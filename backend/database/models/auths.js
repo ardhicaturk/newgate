@@ -6,8 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [5],
-        isAlphanumeric: true
+        len: [5]
       }
     },
     resetToken: {

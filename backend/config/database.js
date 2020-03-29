@@ -12,7 +12,7 @@ const db_config = {
     "dialectOptions":{
       // "socketPath": process.env.DB_DEV_SOCKET_PATH || null
     },
-    "logging": console.log,
+    "logging": false,
     // "operatorsAliases": ((process.env.DB_DEV_OPERATORS_ALIASES || 'false') === 'true'? true : false)
   },
   "test": {
@@ -38,7 +38,7 @@ const db_config = {
     "dialectOptions":{
       // "socketPath": process.env.DB_PROD_SOCKET_PATH || null
     },
-    "logging": console.log,
+    "logging": false,
     // "operatorsAliases": ((process.env.DB_PROD_OPERATORS_ALIASES || 'false') === 'true'? true : false)
   }
 };

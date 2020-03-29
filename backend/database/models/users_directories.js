@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const users_directories = sequelize.define('users_directories', {
     uuid: {
       type: DataTypes.UUID,
-      allowNull: false
+      unique: true
     },
     firstName: {
       type: DataTypes.STRING,
@@ -25,7 +25,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     lastLogin: DataTypes.DATE,
     image: DataTypes.STRING,
-    roleId: DataTypes.INTEGER
+    roleId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    }
   }, {
     schema: 'users_dir',
     tableName: 'users_directories'
