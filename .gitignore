@@ -7,3 +7,4 @@ backend/views
 backend/logs
 backend/.env
 backend/pnpm-lock.*
+.DS_Store
