@@ -1,9 +1,21 @@
 const CryptoJS = require('crypto-js')
 require('dotenv').config()
 
-const key = CryptoJS.enc.Utf8.parse(process.env.SECRET_TOKEN);
-const iv = CryptoJS.enc.Base64.parse(process.env.SECRET_TOKEN);
-
+const secret = (token) => {
+    let secret
+    if(token.length < 16) {
+        secret = token
+        for (var i = token.length ; i < 16; i++){
+            secret += `a`
+        }
+    } else {
+        secret= token;
+        secret = secret.substring(0, 16)
+    }
+    return secret
+}
+const key = CryptoJS.enc.Utf8.parse(secret(process.env.SECRET_TOKEN));
+const iv = CryptoJS.enc.Base64.parse(secret(process.env.SECRET_TOKEN));
 exports.userAgentEncrypt = (req, res, next) => {
     const payload = {
         userAgent: req.headers['user-agent'],
@@ -17,13 +29,10 @@ exports.userAgentEncrypt = (req, res, next) => {
 };
 exports.userAgentDecode = (chiper) => {
     const dec = CryptoJS.AES.decrypt(
-        { ciphertext: CryptoJS.enc.Base64.parse(chiper), salt: "" },
+        chiper,
         key,
-        {
-            iv
-        });
+        { iv });
     const decStr = CryptoJS.enc.Utf8.stringify(dec);
-    console.log("TESTING",{chiper, decStr})
     return decStr;
 }
 

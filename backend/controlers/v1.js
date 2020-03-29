@@ -79,7 +79,7 @@ module.exports = {
                             role: recordUsers.roleId
                         }
                         const token = jwt.sign({
-                            data: payload
+                            data: payload,
                         }, process.env.SECRET_TOKEN, {
                             expiresIn: '1d'
                         })
