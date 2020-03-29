@@ -7,7 +7,9 @@ const cors = require('cors');
 const rfs = require('rotating-file-stream');
 const moment = require('moment');
 const routerV1 = require('./routes/api_v1');
-
+const {
+  userAgentEncrypt
+} = require('./helper/requestCheck')
 const {
   errorResponse
 } = require('./helper/response')
@@ -21,6 +23,7 @@ const app = express();
 
 app.use(cors());
 app.use(helmet());
+app.use(userAgentEncrypt)
 
 app.use(logger('combined'));
 app.use(logger('combined', { stream: accessLogStream(`${moment().format('YYYYMMDD')}_access`)}));

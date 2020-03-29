@@ -24,19 +24,30 @@ module.exports= {
          */
         const jwtFromRequest= req.cookies.access_token || getAuthBearer(req.headers.authorization);
         const secretOrKey= process.env.SECRET_TOKEN;
-        const userAgent = req.headers['user-agent']
         if(jwtFromRequest !== undefined && jwtFromRequest !== null) {
-            const payload = jwt.verify(jwtFromRequest, secretOrKey);
-            rd.get(jwtFromRequest, function(err, reply) {
+            rd.get(req.userAgentEncrypt, function(err, reply) {
                 if (err || reply === null) {
                     res.clearCookie('access_token');
-                    rd.del(jwtFromRequest);
                     errorResponse(res, status.UNAUTHORIZED, 'token expired');
+                    console.log("token check","redis record error or not found")
+                    console.log(reply)
                 } else {
+                    const parser = JSON.parse(reply)
+                    const index = parser.findIndex(x => x.token === jwtFromRequest)
+                    const payload = jwt.verify(parser[index], secretOrKey);
                     if(Date.now() > payload.exp * 1000){
                         res.clearCookie('access_token');
-                        rd.del(jwtFromRequest);
-                        errorResponse(res, status.UNAUTHORIZED, 'token expired');
+                        const filtered = parser.filter(e => e.token !== jwtFromRequest)
+                        console.log("token check","teken has beed expired")
+                        if(filtered.length === 0) {
+                            rd.del(req.userAgentEncrypt)
+                            res.clearCookie('access_token');
+                            successResponse(res, status.UNAUTHORIZED, 'token expired')
+                        } else {
+                            rd.set(req.userAgentEncrypt, JSON.stringify(filtered))
+                            res.clearCookie('access_token');
+                            successResponse(res, status.UNAUTHORIZED, 'token expired')
+                        }
                     } else {
                         next();
                     }

@@ -11,7 +11,7 @@ const redis = require("redis");
 const rd = redis.createClient();
 const validate = require('validate.js');
 const cryptoRandomString = require('crypto-random-string');
-const uuid = require('uuid/v4');
+const {fromString} = require('uuidv4');
 require('dotenv').config()
 rd.on("error", function(error) {
     console.error('Redis:',error);
@@ -83,12 +83,22 @@ module.exports = {
                         }, process.env.SECRET_TOKEN, {
                             expiresIn: '1d'
                         })
-                        const userAgent = req.headers['user-agent'];
                         const uuidUser = recordUsers.uuid;
-                        rd.set(token, JSON.stringify({uuidUser,  userAgent}), redis.print);
-                        rd.expire(token, 60 * 60 * 24);
-                        res.cookie('access_token', token);
-                        successResponse(res, status.OK, {token});
+                        rd.get(req.userAgentEncrypt, function (err, reply) {
+                            if(err || reply === null){
+                                rd.set(req.userAgentEncrypt, JSON.stringify([{token, uuidUser}]));
+                                rd.expire(token, 60 * 60 * 24);
+                                res.cookie('access_token', token);
+                                successResponse(res, status.OK, {token});
+                            } else {
+                                const parser = JSON.parse(reply);
+                                parser.push({token, uuidUser})
+                                rd.set(req.userAgentEncrypt, JSON.stringify(parser));
+                                rd.expire(token, 60 * 60 * 24);
+                                res.cookie('access_token', token);
+                                successResponse(res, status.OK, {token});
+                            }
+                        })
                     })
                     .catch(err => errorResponse(res,
                         status.INTERNAL_SERVER_ERROR,
@@ -111,9 +121,25 @@ module.exports = {
      */
     logout: (req, res, next) => {
         try {
-            rd.del(req.cookies.access_token)
-            res.clearCookie('access_token');
-            successResponse(res, status.OK, 'logout success')
+            rd.get(req.userAgentEncrypt, function(err, reply) {
+                if(err || reply === null) {
+                    errorResponse(res, status.UNAUTHORIZED, 'no token provided')
+                } else {
+                    const parser = JSON.parse(reply)
+                    const jwtFromRequest= req.cookies.access_token
+                    const filtered = parser.filter(e => e.token !== jwtFromRequest)
+                    if(filtered.length === 0) {
+                        rd.del(req.userAgentEncrypt)
+                        res.clearCookie('access_token');
+                        successResponse(res, status.OK, 'logout success')
+                    } else {
+                        rd.set(req.userAgentEncrypt, JSON.stringify(filtered))
+                        res.clearCookie('access_token');
+                        successResponse(res, status.OK, 'logout success')
+                    }
+                }
+                rd.del(req.userAgentEncrypt)
+            })
         } catch (err) {
             errorResponse(res,
                 status.INTERNAL_SERVER_ERROR,
@@ -172,7 +198,7 @@ module.exports = {
                 db.users_directories.findOrCreate({
                     where: { email: body.email },
                     defaults: {
-                        uuid: uuid(body.email),
+                        uuid: fromString(body.email),
                         firstName: body.firstName,
                         lastName: body.lastName,
                         email: body.email,
