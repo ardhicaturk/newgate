@@ -3,15 +3,16 @@ orbs:
   node: circleci/node@1.1.6
 jobs:
   backend-test:
+    working_directory: ~/backend
     executor:
       name: node/default
     steps:
       - checkout
-      - run: cd backend
       - node/with-cache:
           steps:
-            - run: cd backend/ && npm install
-            - run: cd backend/ && npm test
+            - run: pwd
+            - run: npm install
+            - run: npm test
 workflows:
     test:
       jobs:
