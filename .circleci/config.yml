@@ -1,16 +1,16 @@
-version: 2.1
-orbs:
-  node: circleci/node@1.1.6
 jobs:
   backend-test:
     executor:
       name: node/default
     steps:
       - checkout
-      - node:
-          steps:
-            - run: cd backend/ && npm install
-            - run: cd backend/ && npm test
+      - cd backend/ && npm install
+      - cd backend/ && npm test
+           
+
+version: 2.1
+orbs:
+  node: circleci/node@1.1.6
 workflows:
     test:
       jobs:
