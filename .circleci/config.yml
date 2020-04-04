@@ -9,10 +9,8 @@ jobs:
       - checkout
       - node/with-cache:
           steps:
-            - run: cd backend/
-            - run: pwd
-            - run: npm install
-            - run: npm test
+            - run: cd backend/ && npm install
+            - run: cd backend/ && npm test
 workflows:
     test:
       jobs:
