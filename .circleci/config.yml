@@ -17,7 +17,7 @@ jobs:
           name: test
           command: cd backend && npm test
       - store_artifacts:
-          path: ~/backend/coverage
+          path: backend/coverage
           prefix: coverage
 workflows:
     test:
