@@ -1,5 +1,12 @@
 const redis = require("redis");
-const rd = redis.createClient();
+
+require('dotenv').config();
+
+const rd = process.env.NODE_ENV === 'test' ? redis.createClient({
+    host: process.env.REDIS_TEST_HOST,
+    port: process.env.REDIS_TEST_PORT,
+    password: process.env.REDIS_TEST_PASSWORD
+}) : redis.createClient();
     
 rd.on("error", function(error) {
     console.error('Redis:',error);
