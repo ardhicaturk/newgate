@@ -25,7 +25,7 @@ const db_config = {
     "dialectOptions":{
       // "socketPath": process.env.DB_TEST_SOCKET_PATH || null
     },
-    // "logging": console.log,
+    "logging": false,
     // "operatorsAliases": ((process.env.DB_TEST_OPERATORS_ALIASES || 'false') === 'true'? true : false)
   },
   "production": {
@@ -42,5 +42,4 @@ const db_config = {
     // "operatorsAliases": ((process.env.DB_PROD_OPERATORS_ALIASES || 'false') === 'true'? true : false)
   }
 };
-
 module.exports = db_config;

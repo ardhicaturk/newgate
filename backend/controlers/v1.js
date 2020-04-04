@@ -7,15 +7,11 @@ const {
 const db = require(approot + '/database/models/index.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const redis = require("redis");
-const rd = redis.createClient();
+const { redisContext } = require('../config/redis');
 const validate = require('validate.js');
 const cryptoRandomString = require('crypto-random-string');
 const {fromString} = require('uuidv4');
 require('dotenv').config()
-rd.on("error", function(error) {
-    console.error('Redis:',error);
-});
 
 module.exports = {
     getUserIdp: (req, res, next) => {
@@ -81,20 +77,20 @@ module.exports = {
                         const token = jwt.sign({
                             data: payload,
                         }, process.env.SECRET_TOKEN, {
-                            expiresIn: '1d'
+                            expiresIn: process.env.TOKEN_EXP || '1d'
                         })
                         const uuidUser = recordUsers.uuid;
-                        rd.get(req.userAgentEncrypt, function (err, reply) {
+                        redisContext.get(req.userAgentEncrypt, function (err, reply) {
                             if(err || reply === null){
-                                rd.set(req.userAgentEncrypt, JSON.stringify([{token, uuidUser}]));
-                                rd.expire(token, 60 * 60 * 24);
+                                redisContext.set(req.userAgentEncrypt, JSON.stringify([{token, uuidUser}]));
+                                redisContext.expire(token, 60 * 60 * 24);
                                 res.cookie('access_token', token);
                                 successResponse(res, status.OK, {token});
                             } else {
                                 const parser = JSON.parse(reply);
                                 parser.push({token, uuidUser})
-                                rd.set(req.userAgentEncrypt, JSON.stringify(parser));
-                                rd.expire(token, 60 * 60 * 24);
+                                redisContext.set(req.userAgentEncrypt, JSON.stringify(parser));
+                                redisContext.expire(token, 60 * 60 * 24);
                                 res.cookie('access_token', token);
                                 successResponse(res, status.OK, {token});
                             }
@@ -121,7 +117,7 @@ module.exports = {
      */
     logout: (req, res, next) => {
         try {
-            rd.get(req.userAgentEncrypt, function(err, reply) {
+            redisContext.get(req.userAgentEncrypt, function(err, reply) {
                 if(err || reply === null) {
                     errorResponse(res, status.UNAUTHORIZED, 'no token provided')
                 } else {
@@ -129,16 +125,16 @@ module.exports = {
                     const jwtFromRequest= req.cookies.access_token
                     const filtered = parser.filter(e => e.token !== jwtFromRequest)
                     if(filtered.length === 0) {
-                        rd.del(req.userAgentEncrypt)
+                        redisContext.del(req.userAgentEncrypt)
                         res.clearCookie('access_token');
                         successResponse(res, status.OK, 'logout success')
                     } else {
-                        rd.set(req.userAgentEncrypt, JSON.stringify(filtered))
+                        redisContext.set(req.userAgentEncrypt, JSON.stringify(filtered))
                         res.clearCookie('access_token');
                         successResponse(res, status.OK, 'logout success')
                     }
                 }
-                rd.del(req.userAgentEncrypt)
+                redisContext.del(req.userAgentEncrypt)
             })
         } catch (err) {
             errorResponse(res,

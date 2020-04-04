@@ -7,4 +7,5 @@ backend/views
 backend/logs
 backend/.env
 backend/pnpm-lock.*
+backend/coverage
 .DS_Store
