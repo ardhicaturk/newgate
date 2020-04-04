@@ -20,6 +20,7 @@ module.exports = {
        usersId: 1,
        authModeId: 1,
        authId: 1,
+       lastLogin: new Date(),
        createdAt: new Date(),
        updatedAt: new Date()
      }

@@ -15,8 +15,8 @@ module.exports = {
             type: Sequelize.INTEGER,
             references: {
               model: {
+                tableName: 'users_directories',
                 schema: 'users_dir',
-                tableName: 'users_directories'
               },
               key: 'id'
             }
@@ -34,6 +34,9 @@ module.exports = {
               model: 'auths',
               key: 'id'
             }
+          },
+          lastLogin: {
+            type: Sequelize.DATE
           },
           createdAt: {
             allowNull: false,

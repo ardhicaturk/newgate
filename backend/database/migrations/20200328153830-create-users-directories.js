@@ -1,6 +1,5 @@
 'use strict';
 
-const uuid = require('uuid/v4');
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.sequelize.transaction(t => {
@@ -15,7 +14,6 @@ module.exports = {
           },
           uuid: {
             type: Sequelize.UUID,
-            defaultValue: uuid()
           },
           firstName: {
             type: Sequelize.STRING
@@ -29,9 +27,6 @@ module.exports = {
           },
           email: {
             type: Sequelize.STRING
-          },
-          lastLogin: {
-            type: Sequelize.DATE
           },
           image: {
             type: Sequelize.STRING

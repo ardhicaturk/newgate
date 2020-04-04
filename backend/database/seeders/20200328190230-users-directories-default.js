@@ -1,5 +1,5 @@
 'use strict';
-
+const {fromString} = require('uuidv4')
 module.exports = {
   up: (queryInterface, Sequelize) => {
     /*
@@ -17,12 +17,12 @@ module.exports = {
     tableName: 'users_directories'
   }, [
     {
+      uuid: fromString(new Date().toDateString()),
       firstName: 'Foo',
       lastName: 'Bar',
       email: 'tester@example.com',
       roleId: 4,
       image: 'google.com',
-      lastLogin: new Date(),
       createdAt: new Date(),
       updatedAt: new Date()
     }

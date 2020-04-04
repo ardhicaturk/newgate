@@ -15,6 +15,9 @@ module.exports = (sequelize, DataTypes) => {
         min: 1
       }
     },
+    lastLogin: {
+      type: DataTypes.DATE
+    },
     authId: {
       type: DataTypes.INTEGER,
       allowNull: false,

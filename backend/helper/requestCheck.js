@@ -22,8 +22,6 @@ exports.userAgentEncrypt = (req, res, next) => {
         remoteClient: req.headers['x-forwarded-for'] || req.connection.remoteAddress
     }
     const chiper = CryptoJS.AES.encrypt(JSON.stringify(payload), key, { iv }).toString();
-    console.log("USER_AGENT_ENCRYPTED:", chiper)
-    console.log("USER_AGENT:", this.userAgentDecode(chiper))
     req.userAgentEncrypt = chiper;
     next();
 };

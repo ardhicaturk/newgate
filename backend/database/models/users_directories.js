@@ -23,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
         isEmail: true
       }
     },
-    lastLogin: DataTypes.DATE,
     image: DataTypes.STRING,
     roleId: {
       type: DataTypes.INTEGER,
