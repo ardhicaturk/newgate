@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run:
           name: change-dir
-          command: 'cd backend'
+          command: cd backend
       - run:
           name: update-npm
           command: 'sudo npm install -g npm@latest'
