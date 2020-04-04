@@ -6,8 +6,8 @@
     "start": "node ./bin/www",
     "pretest": "cross-env NODE-ENV=test npm run migrate:reset",
     "test": "cross-env NODE-ENV=test jest --coverage --testTimeout=10000 --detectOpenHandles",
-    "migrate": "sequelize db:migrate",
-    "migrate:reset": "sequelize db:migrate:undo:all && npm run migrate && sequelize db:seed:all"
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate && npx sequelize-cli db:seed:all"
   },
   "jest": {
     "testEnvironment": "node",
